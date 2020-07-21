@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CanvasJSReact from "../../assets/canvasjs.react";
 import { parse } from "date-fns";
 
@@ -7,6 +7,14 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 function OHLCChart(props) {
   const dates = [];
   const chartReference = React.createRef();
+  //   const [historicalDataSet, setHistoricalDataSet] = useState(props.data);
+  //   //
+  //   useEffect(() => {
+  //     if (props.data !== historicalDataSet) {
+  //       setHistoricalDataSet(props.data);
+  //       // CanvasJSChart.render();
+  //     }
+  //   }, [props.data]);
 
   if (!props.data || props.data.length === 0) {
     return <div></div>;
@@ -21,6 +29,7 @@ function OHLCChart(props) {
     };
     return obj;
   });
+  console.log("dateSet", dateSet);
   const options = {
     animationEnabled: true,
     zoomEnabled: true,
@@ -50,10 +59,7 @@ function OHLCChart(props) {
 
   return (
     <div>
-      <CanvasJSChart
-        options={options}
-        /* onRef={ref => this.chart = ref} */
-      />
+      <CanvasJSChart options={options} />
       {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
     </div>
   );

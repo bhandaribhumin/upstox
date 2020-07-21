@@ -1,37 +1,37 @@
 import axios from "axios";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import OHLCChart from "./OHLCChart";
-function HistoricaleChart() {
-  const [fetched, setFetched] = useState(false);
-  const [HistoricalData, setHistoricalData] = useState([]);
-  useEffect(() => {
-    if (fetched === false) {
-      getHistoricalData();
-    }
-  }, [fetched]);
-  //setInterval(this.getHistoricalData, 2000);
-  const getHistoricalData = async () => {
+class HistoricaleChart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      historicalData: null,
+    };
+    this.getHistoricalData = this.getHistoricalData.bind(this);
+  }
+  componentDidMount() {
+    this.getHistoricalData();
+  }
+
+  async getHistoricalData() {
     try {
       const [historical] = await Promise.all([
         axios.get("http://kaboom.rksv.net/api/historical"),
       ]);
-      setHistoricalData(historical.data);
-      setFetched(true);
+      console.log(historical.data);
+      this.setState({ historicalData: historical.data });
     } catch (err) {
       console.log(err);
     }
-  };
-  return (
-    <div className="cards-container">
-      <div
-        className="card card-big fadeInUp"
-        style={{ animationDelay: "0.7s" }}
-      >
-        <OHLCChart data={HistoricalData} />
+  }
+  render() {
+    return (
+      <div className="cards-container">
+        <OHLCChart data={this.state.historicalData} />
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default HistoricaleChart;
