@@ -10,7 +10,7 @@ function HistoricaleChart() {
       getHistoricalData();
     }
   }, [fetched]);
-
+  //setInterval(this.getHistoricalData, 2000);
   const getHistoricalData = async () => {
     try {
       const [historical] = await Promise.all([
