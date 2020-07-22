@@ -58,7 +58,7 @@ class Dashboard extends Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      console.log(this.state.items);
+      // console.log(this.state.items);
       return (
         <div>
           <Socket />
