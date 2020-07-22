@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Upstox from "./views/upstox";
+import Stock from "./Stock";
 
 class App extends Component {
   render() {
-    return <Upstox />;
+    return <Stock />;
   }
 }
 
