@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import Stock from "./Stock";
-import Socket from "./Socket";
+import Upstox from "./views/upstox";
+// import Socket from "./Socket";
 class App extends Component {
   render() {
     return (
       <div>
-        <Socket />
-        <Stock />
+        <Upstox />
       </div>
     );
   }
