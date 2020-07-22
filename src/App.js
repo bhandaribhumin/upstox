@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import Stock from "./Stock";
-
+import Socket from "./Socket";
 class App extends Component {
   render() {
-    return <Stock />;
+    return (
+      <div>
+        <Socket />
+        <Stock />
+      </div>
+    );
   }
 }
 

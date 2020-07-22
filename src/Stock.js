@@ -1,36 +1,51 @@
 import React, { Component } from "react";
 import CanvasJSReact from "./assets/canvasjs.react";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-var dps = [
-  { x: 1, y: 10 },
-  { x: 2, y: 13 },
-  { x: 3, y: 18 },
-  { x: 4, y: 20 },
-  { x: 5, y: 17 },
-  { x: 6, y: 10 },
-  { x: 7, y: 13 },
-  { x: 8, y: 18 },
-  { x: 9, y: 20 },
-  { x: 10, y: 17 },
-]; //dataPoints.
+var dps = []; //dataPoints.
 var xVal = dps.length + 1;
 var yVal = 15;
-var updateInterval = 1000;
+var yOpen = 10;
+var Yclose = 15;
+var Ylow = 20;
+var Yhigh = 30;
+var updateInterval = 5000;
+var count = 0;
+var offset = 10;
 export class Stock extends Component {
   constructor() {
     super();
     this.updateChart = this.updateChart.bind(this);
   }
   componentDidMount() {
+    this.updateChart();
     setInterval(this.updateChart, updateInterval);
   }
-  updateChart() {
-    yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
-    dps.push({ x: xVal, y: [yVal, 34, 12, 14] });
-    xVal++;
-    if (dps.length > 10) {
-      dps.shift();
-    }
+  async updateChart() {
+    yOpen = yVal + Math.round(Math.random() * 2);
+    Yclose = yVal + Math.round(Math.random() * 5);
+    Ylow = yVal + Math.round(Math.random() * 6);
+    Yhigh = yVal + Math.round(Math.random() * 1);
+    await fetch("http://kaboom.rksv.net/api/historical")
+      .then((res) => res.json())
+      .then((data) => {
+        let items = data.slice(count, offset).map((stockData) => {
+          let unix_timestamp = stockData.trim().split(",")[0];
+          const date = new Date(unix_timestamp.substring(0, 10) * 1000);
+          let [, ...args] = stockData
+            .trim()
+            .split(",")
+            .slice(0, -2)
+            .map(Number);
+
+          dps.push({
+            x: new Date(date),
+            y: args,
+          });
+        });
+        count += 10;
+        offset = count + 10;
+        // console.log("data", data);
+      });
     this.chart.render();
   }
 
@@ -45,16 +60,18 @@ export class Stock extends Component {
       },
       axisX: {
         interval: 1,
-        intervalType: "year",
-        valueFormatString: "YYYY",
+        intervalType: "month",
+        valueFormatString: "DD MM YYYY",
       },
       axisY: {
         prefix: "$",
+        includeZero: false,
         title: "Price (in USD)",
       },
       data: [
         {
           type: "ohlc",
+          xValueType: "dateTime",
           yValueFormatString: "$###0.00",
           xValueFormatString: "MMM YYYY",
           dataPoints: dps,
