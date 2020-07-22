@@ -8,9 +8,10 @@ var yOpen = 10;
 var Yclose = 15;
 var Ylow = 20;
 var Yhigh = 30;
-var updateInterval = 5000;
-var count = 0;
-var offset = 10;
+var updateInterval = 3000;
+// var count = 0;
+// var offset = 10;
+var interval = 1;
 export class Stock extends Component {
   constructor() {
     super();
@@ -26,10 +27,10 @@ export class Stock extends Component {
     Yclose = yVal + Math.round(Math.random() * 5);
     Ylow = yVal + Math.round(Math.random() * 6);
     Yhigh = yVal + Math.round(Math.random() * 1);
-    await fetch("http://kaboom.rksv.net/api/historical")
+    await fetch(`http://kaboom.rksv.net/api/historical?interval=${interval}`)
       .then((res) => res.json())
       .then((data) => {
-        let items = data.slice(count, offset).map((stockData) => {
+        let items = data.map((stockData) => {
           let unix_timestamp = stockData.trim().split(",")[0];
           const date = new Date(unix_timestamp.substring(0, 10) * 1000);
           let [, ...args] = stockData
@@ -43,10 +44,14 @@ export class Stock extends Component {
             y: args,
           });
         });
-        count += 10;
-        offset = count + 10;
+        // count += 10;
+        // offset = count + 10;
+        ++interval;
         // console.log("data", data);
       });
+    if (interval > 10) {
+      clearInterval(this.state.intervalId);
+    }
     this.chart.render();
   }
   componentWillUnmount() {
@@ -63,7 +68,7 @@ export class Stock extends Component {
       },
       axisX: {
         interval: 1,
-        intervalType: "month",
+        intervalType: "year",
         valueFormatString: "MM-YYYY",
       },
       axisY: {

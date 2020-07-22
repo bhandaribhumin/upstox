@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Stock from "../chart/Stock";
 import Datatable from "react-bs-datatable";
 import "bootstrap/dist/css/bootstrap.css";
+import Socket from "../../Socket";
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -59,6 +61,7 @@ class Dashboard extends Component {
       console.log(this.state.items);
       return (
         <div>
+          <Socket />
           <Stock />
           {/* <Datatable
             tableHeader={this.header}

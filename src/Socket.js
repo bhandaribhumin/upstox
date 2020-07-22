@@ -6,15 +6,14 @@ const socket_io = io("http://kaboom.rksv.net/api/", {
 const Socket = ({}) => {
   const [data, setData] = useState([]);
   useEffect(() => {
-    socket_io.on("historical", (cpuPercent) => {
-      console.log("watch", cpuPercent);
-      setData((currentData) => [...currentData, cpuPercent]);
+    socket_io.on("Data", (data) => {
+      console.log("watch", data);
+      setData((currentData) => [...currentData, data]);
     });
   }, []);
   return (
     <div>
-      Real
-      <p>asd</p>
+      <p>RealTime Data</p>
     </div>
   );
 };
