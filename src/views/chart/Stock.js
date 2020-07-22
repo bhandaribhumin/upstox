@@ -18,7 +18,8 @@ export class Stock extends Component {
   }
   componentDidMount() {
     this.updateChart();
-    setInterval(this.updateChart, updateInterval);
+    let intervalId = setInterval(this.updateChart, updateInterval);
+    this.setState({ intervalId: intervalId });
   }
   async updateChart() {
     yOpen = yVal + Math.round(Math.random() * 2);
@@ -48,7 +49,9 @@ export class Stock extends Component {
       });
     this.chart.render();
   }
-
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
+  }
   render() {
     const options = {
       animationEnabled: true,
@@ -61,7 +64,7 @@ export class Stock extends Component {
       axisX: {
         interval: 1,
         intervalType: "month",
-        valueFormatString: "DD MM YYYY",
+        valueFormatString: "MM-YYYY",
       },
       axisY: {
         prefix: "$",
