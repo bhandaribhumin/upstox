@@ -3,15 +3,21 @@ import Upstox from "./views/upstox";
 import { subscribeToData } from "./socket/getData";
 
 import Offlline from "./views/tooltip";
-// import Socket from "./Socket";
+//import Socket from "./Socket";
 class App extends Component {
   constructor(props) {
     super(props);
     this.mounted = false;
     this.state = { online: true };
-    subscribeToData((err, timestamp) => {
-      console.log(timestamp);
-    });
+    subscribeToData(
+      (err, historicalData) => {
+        console.log("subscribeToData");
+        console.log(historicalData);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
   componentDidMount() {
     this.mounted = true;

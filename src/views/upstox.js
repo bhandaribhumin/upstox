@@ -7,14 +7,10 @@ import Col from "react-bootstrap/Col";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
-import ListGroup from "react-bootstrap/ListGroup";
-import { Route, NavLink, BrowserRouter } from "react-router-dom";
+import { Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "./dashboard/dashboard";
 import HistoricaleChart from "./chart/historical";
 class Upstox extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div>
