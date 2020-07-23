@@ -2,15 +2,7 @@ import React, { Component } from "react";
 import CanvasJSReact from "../../assets/canvasjs.react";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 var dps = []; //dataPoints.
-var xVal = dps.length + 1;
-var yVal = 15;
-var yOpen = 10;
-var Yclose = 15;
-var Ylow = 20;
-var Yhigh = 30;
 var updateInterval = 3000;
-// var count = 0;
-// var offset = 10;
 var interval = 1;
 export class Stock extends Component {
   constructor() {
@@ -23,14 +15,10 @@ export class Stock extends Component {
     this.setState({ intervalId: intervalId });
   }
   async updateChart() {
-    yOpen = yVal + Math.round(Math.random() * 2);
-    Yclose = yVal + Math.round(Math.random() * 5);
-    Ylow = yVal + Math.round(Math.random() * 6);
-    Yhigh = yVal + Math.round(Math.random() * 1);
     await fetch(`http://kaboom.rksv.net/api/historical?interval=${interval}`)
       .then((res) => res.json())
       .then((data) => {
-        let items = data.map((stockData) => {
+        data.map((stockData) => {
           let unix_timestamp = stockData.trim().split(",")[0];
           const date = new Date(unix_timestamp.substring(0, 10) * 1000);
           let [, ...args] = stockData
@@ -44,10 +32,7 @@ export class Stock extends Component {
             y: args,
           });
         });
-        // count += 10;
-        // offset = count + 10;
         ++interval;
-        // console.log("data", data);
       });
     if (interval > 10) {
       clearInterval(this.state.intervalId);
@@ -80,6 +65,7 @@ export class Stock extends Component {
         {
           type: "ohlc",
           xValueType: "dateTime",
+          name: "Real Time Stock Data",
           yValueFormatString: "$###0.00",
           xValueFormatString: "MMM YYYY",
           dataPoints: dps,

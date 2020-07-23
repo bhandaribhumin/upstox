@@ -9,7 +9,6 @@ import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "./dashboard/dashboard";
-import HistoricaleChart from "./chart/historical";
 class Upstox extends Component {
   render() {
     return (
@@ -23,7 +22,7 @@ class Upstox extends Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <Nav.Link href="/"> DASHBOARD</Nav.Link>
-              <Nav.Link href="/ohlc-chart">Chart</Nav.Link>
+              {/* <Nav.Link href="/ohlc-chart">Chart</Nav.Link> */}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -60,7 +59,7 @@ class Upstox extends Component {
               <Container>
                 <div className="content">
                   <Route exact path="/" component={Dashboard} />
-                  <Route path="/ohlc-chart" component={HistoricaleChart} />
+                  {/* <Route path="/ohlc-chart" component={HistoricaleChart} /> */}
                 </div>
               </Container>
             </Col>
