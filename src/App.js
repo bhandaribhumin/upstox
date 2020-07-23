@@ -19,7 +19,6 @@ class App extends Component {
         console.log(error);
       }
     );
-    this.onMessageReceived = this.onMessageReceived.bind(this);
   }
   componentDidMount() {
     this.mounted = true;
